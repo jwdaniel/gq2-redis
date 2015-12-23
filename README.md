@@ -9,6 +9,18 @@ $ npm install --unsafe-perm
 ```
 ### gq2.config.json
 
+```
+{
+	"server": "your-own-gq2-server",
+	"port": 443,
+	"SSL": true,
+	"a": "a",
+	"b": "b",
+	"c": "c",
+	"d": "d"
+}
+```
+
 ## Run
 
 ### server:
