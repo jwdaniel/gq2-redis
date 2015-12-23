@@ -1,5 +1,7 @@
 # gq2-redis
 
+A private stress test on my Node.js pubsub system.
+
 ## Prepare
 
 ### for ubuntu
