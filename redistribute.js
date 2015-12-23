@@ -66,7 +66,9 @@ if (cluster.isMaster) {
 				redisClient.hgetall(key, function(err, res) {
 					// console.log("%s: %s", key, JSON.stringify(res));
 					msggot++;
-					iPuber.pub(key, JSON.stringify(res));
+					if (typeof(res) == 'object') {
+						iPuber.pub(key, JSON.stringify(res));
+					}
 				});
 			});
 			setTimeout(cb, 0);
