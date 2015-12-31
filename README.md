@@ -34,7 +34,10 @@ $ node --max_old_space_size=8000000 redistribute.js &
 
 ### client:
 
+Try the following clients:
 ```bash
 $ node cli &
+$ node cli2 &
+$ node rtt2 &
 ```
 
