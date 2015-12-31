@@ -10,11 +10,10 @@ for (var i = 0; i < 2000; i++) {
 		var ws = new WebSocket('ws://localhost:8080/hello');
 		ws.on('open', function open() {
 			clients++;
-			// ws.send(Date.now().toString(), {mask: true});
+			ws.send(JSON.stringify({cmd: 'sub', symbol: 'ICE.TWF.TXO.201601.*'}));
 		});
 		ws.on('message', function(data, flags) {
 			recv++;
-			// console.log('Roundtrip time: ' + (Date.now() - parseInt(data)) + 'ms', flags);
 		});
 	}, delay);
 }

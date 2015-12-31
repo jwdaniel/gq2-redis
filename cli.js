@@ -4,15 +4,16 @@ var WebSocket = require('ws');
 var clients = 0;
 var recv = 0;
 
-async.times(1000, function(n, next) {
+async.times(1, function(n, next) {
 	var ws = new WebSocket('ws://localhost:8080/hello');
 	ws.on('open', function open() {
 		clients++;
-		// ws.send(Date.now().toString(), {mask: true});
+		// ws.send(JSON.stringify({cmd: 'sub', symbol: 'ICE.TWF.TXO.201601.*'}));
+		ws.send(JSON.stringify({cmd: 'sub', symbol: 'ICE.TWF.TXO.201601.P.8500'}));
 	});
 	ws.on('message', function(data, flags) {
 		recv++;
-		// console.log('Roundtrip time: ' + (Date.now() - parseInt(data)) + 'ms', flags);
+		console.log(data);
 	});
 /*
 	ws.on('error', function(err) {

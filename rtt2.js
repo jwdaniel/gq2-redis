@@ -3,13 +3,17 @@ var WebSocket = require('ws');
 
 	var ws = new WebSocket('ws://localhost:8080/rtt');
 	ws.on('open', function open() {
-		// ws.send(Date.now().toString());
-		ws.send(process.hrtime().toString());
+		setInterval(function() {
+			// var o = ['rtt'].concat(process.hrtime()).join()
+			var o = {cmd: 'rtt', ts: process.hrtime().join() };
+			ws.send(JSON.stringify(o));
+		}, 1000);
 	});
 	ws.on('message', function(data, flags) {
-		// console.log('rtt = %d ms', Date.now() - parseInt(data));
-		console.log('rtt = %s/%s', process.hrtime().toString(), data);
-		// ws.send(Date.now().toString());
-		ws.send(process.hrtime().toString());
+		var t1 = process.hrtime();
+		var o = JSON.parse(data);
+		var t0 = o.ts.split(',')
+		var diff = t1[1] - t0[1];
+		console.log('rtt = %s/%s, diff = %d', t1, t0, diff);
 		// ws.close();
 	});

@@ -66,7 +66,7 @@ if (cluster.isMaster) {
 				redisClient.hgetall(key, function(err, res) {
 					// console.log("%s: %s", key, JSON.stringify(res));
 					msggot++;
-					if (typeof(res) == 'object') {
+					if (typeof(res) === 'object') {
 						iPuber.pub(key, JSON.stringify(res));
 					}
 				});
@@ -80,16 +80,19 @@ if (cluster.isMaster) {
 		wss.on('connection', function(ws) {
 			clients++;
 			var iSuber = IPubSub.createSubscriber();
-			// iSuber.psub("ICE.*");
-			iSuber.psub("ICE.TWF.TXO.201601.*");
 			iSuber.on("pmsg", function(pattern, key, msg) {
 				msgsent++;
 				ws.send(msg);
 			});
 			ws.on('message', function(message) {
 				// console.log('recv: %s', message);
-				// ws.send(Date.now().toString());
-				ws.send(message);
+				var o = JSON.parse(message);
+				if (o.cmd === 'rtt') {
+					ws.send(message);
+				} else if (o.cmd === 'sub') {
+					// iSuber.psub("ICE.TWF.TXO.201602.*");
+					iSuber.psub(o.symbol);
+				}
 			});
 			ws.on('close', function(code, message) {
 				clients--;
@@ -97,7 +100,6 @@ if (cluster.isMaster) {
 		});
 		setTimeout(cb, 0);
 		setInterval(function() {
-			// console.log("client/got/sent = %d/%d/%d", clients, msggot, msgsent);
 			process.send({clients: clients, msggot: msggot, msgsent: msgsent});
 		}, 2000)
 	};
