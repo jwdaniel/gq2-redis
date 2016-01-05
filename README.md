@@ -28,6 +28,8 @@ $ npm install --unsafe-perm
 ### server:
 
 ```bash
+$ cat sysctl.txt >> /etc/sysctl.conf
+$ sysctl -p
 $ node gq2redis.js &
 $ node --max_old_space_size=8000000 redistribute.js &
 ```
@@ -36,6 +38,7 @@ $ node --max_old_space_size=8000000 redistribute.js &
 
 Try the following clients:
 ```bash
+$ ulimit -n 65536
 $ node cli &
 $ node cli2 &
 $ node rtt2 &

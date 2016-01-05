@@ -14,6 +14,7 @@ var WebSocket = require('ws');
 		var o = JSON.parse(data);
 		var t0 = o.ts.split(',')
 		var diff = t1[1] - t0[1];
+		if (diff < 0) { diff += 1000000000; }
 		console.log('rtt = %s/%s, diff = %d', t1, t0, diff);
 		// ws.close();
 	});
